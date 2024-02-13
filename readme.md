@@ -11,7 +11,7 @@ pip3 install nltk
 pip3 install numpy
 pip3 install XlsxWriter
 pip3 install spacy
-python3 -m spacy download en_core_web_trf
+python3 -m spacy download en_core_web_lg
 ```
 
 3 Ensure resumes are placed in test_resumes folder
