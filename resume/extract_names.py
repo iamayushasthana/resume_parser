@@ -23,14 +23,15 @@ matcher = Matcher(nlp.vocab)
 
 def extract_names(resume_text):
   nlp_text = nlp(resume_text)
-  
-  # pattern = [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
-  pattern = [{'POS': 'PROPN'}]
-  
-  matcher.add('NAME', [pattern])
-  
+
+  patterns = [
+    [{'POS': 'PROPN'}],
+    [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
+  ]
+
+  matcher.add('NAME', patterns)
   matches = matcher(nlp_text)
-  
+
   for match_id, start, end in matches:
     span = nlp_text[start:end]
     return span.text
