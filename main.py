@@ -23,6 +23,8 @@ def main():
   row_number = 1 
   for index, file in enumerate(files):
     text = extract_text(file, PATH)
+    if (text == None):
+      continue
     source = file[1]
     names = extract_names(text)
     phone_number = extract_phone_number(text)
@@ -51,6 +53,8 @@ def get_files_list(path):
   return files
 
 def extract_text(file_data, path):
+  if ('~$' in file_data[1]):
+    return 
   match file_data[0]:
     case 'docx':
       text = extract_text_from_docx(path + '/' + file_data[1])

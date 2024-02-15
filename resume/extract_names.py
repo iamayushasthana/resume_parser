@@ -34,4 +34,7 @@ def extract_names(resume_text):
 
   for match_id, start, end in matches:
     span = nlp_text[start:end]
-    return span.text
+    text = span.text
+    if(text.lower() in "resume resumes curriculum vitae cv"):
+      continue
+    return text
