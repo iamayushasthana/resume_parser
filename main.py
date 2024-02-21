@@ -11,6 +11,7 @@ from resume.extract_names import extract_names
 from resume.extract_phone_number import extract_phone_number
 from resume.extract_emails import extract_emails
 from resume.extract_skills import extract_skills
+from resume.extract_locations import extract_locations
 
 ROWS_PER_WORKSHEET = 45000
 
@@ -33,12 +34,14 @@ def main():
     skills = extract_skills(text)
     skills_count = len(skills)
 
+    locations = join_to_string(extract_locations(text))
+
     if (skills_count + row_number > ROWS_PER_WORKSHEET):
       worksheet = generate_worksheet(workbook)
       row_number = 1 
 
     for skill in skills:
-      row_number = write_to_worksheet(worksheet, row_number, source, names, phone_number, emails, skill)
+      row_number = write_to_worksheet(worksheet, row_number, source, names, phone_number, emails, skill, locations)
     print(f"Successfully extracted data from {source}!!")
 
   print("Saving data to excel file!!")
@@ -70,7 +73,7 @@ def generate_worksheet(workbook):
   worksheet = workbook.add_worksheet()
   return worksheet
 
-def write_to_worksheet(worksheet, row_number, source, name, phone_number, emails, skill):
+def write_to_worksheet(worksheet, row_number, source, name, phone_number, emails, skill, locations):
   if (row_number == 1):
     row = str(row_number)
     worksheet.write('A' + row, "Source")
@@ -78,6 +81,7 @@ def write_to_worksheet(worksheet, row_number, source, name, phone_number, emails
     worksheet.write('C' + row, "Phone Number")
     worksheet.write('D' + row, "Emails")
     worksheet.write('E' + row, "Skills")
+    worksheet.write('F' + row, "Locations")
     row_number += 1
 
   row = str(row_number)
@@ -86,6 +90,7 @@ def write_to_worksheet(worksheet, row_number, source, name, phone_number, emails
   worksheet.write('C' + row, phone_number)
   worksheet.write('D' + row, emails)
   worksheet.write('E' + row, skill)
+  worksheet.write('F' + row, locations)
   row_number += 1
 
   return row_number
